@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    alicloud:
+      access-key: LTAI4FmzDBZByNuokPMs7QwC
+      secret-key: spbY2KlKJjoI3wk0CpPTr7eEv4X90M
+      oss:
+        endpoint: oss-cn-beijing.aliyuncs.com
+        bucket: xbwang
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
