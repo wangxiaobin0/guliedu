@@ -14,6 +14,6 @@ public class GlobalExceptionConfig {
     @ExceptionHandler(Exception.class)
     public R exceptionHandler(Exception e) {
         e.printStackTrace();
-        return R.error();
+        return R.error().message(e.getMessage());
     }
 }
