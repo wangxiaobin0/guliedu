@@ -1,35 +1,20 @@
-package com.service.edu.entity;
+package com.service.edu.entity.vo;
 
 import com.baomidou.mybatisplus.annotation.*;
-
-import java.util.Date;
-import java.io.Serializable;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
- * <p>
- * 讲师
- * </p>
- *
- * @author wxb
- * @since 2020-05-01
+ * @author
+ * @date 2020/5/3
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
-@TableName("edu_teacher")
-@ApiModel(value="Teacher对象", description="讲师")
-public class Teacher implements Serializable {
-
-    private static final long serialVersionUID = 1L;
-
+public class TeacherVo implements Serializable {
     @ApiModelProperty(value = "讲师ID")
-    @TableId(value = "id", type = IdType.AUTO)
-    private Long id;
+    private String id;
 
     @ApiModelProperty(value = "讲师姓名")
     private String name;
@@ -60,6 +45,4 @@ public class Teacher implements Serializable {
     @ApiModelProperty(value = "更新时间", example = "2019-12-31 24:59")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date gmtModified;
-
-
 }

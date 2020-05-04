@@ -54,6 +54,7 @@ public class SubjectServiceImpl extends ServiceImpl<SubjectMapper, Subject> impl
                 return vo;
             }).collect(Collectors.toList());
             nestedVo.setChildren(collect);
+            nestedVo.setId(item.getId().toString());
             return nestedVo;
         }).collect(Collectors.toList());
         return nestedVoList;

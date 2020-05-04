@@ -3,6 +3,7 @@ package com.service.edu.service;
 import com.common.utils.PageResult;
 import com.service.edu.entity.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.service.edu.entity.vo.TeacherVo;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface ITeacherService extends IService<Teacher> {
      * @return
      */
     PageResult byPage(Long page, Long limit);
+
+    List<TeacherVo> list();
 }

@@ -2,7 +2,6 @@ package com.service.edu.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.common.utils.R;
-import com.service.edu.entity.Subject;
 import com.service.edu.entity.vo.SubjectNestedVo;
 import com.service.edu.service.ISubjectService;
 import io.swagger.annotations.Api;
@@ -19,7 +18,7 @@ import java.util.List;
  * @author
  * @date 2020/5/2
  */
-@Api(description = "课程分来管理")
+@Api(description = "课程分类管理")
 @RestController
 @RequestMapping("/admin/edu/subject")
 public class SubjectController {

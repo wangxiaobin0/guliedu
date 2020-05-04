@@ -69,7 +69,7 @@ public class SubjectExcelListener extends AnalysisEventListener<SubjectExcel> {
      */
     private Subject existOneSubject(ISubjectService subjectService, String oneSubjectName) {
         QueryWrapper queryWrapper =  new QueryWrapper();
-        queryWrapper.eq("parent_id", 0);
+        queryWrapper.eq("parent_id", 0L);
         queryWrapper.eq("title", oneSubjectName);
         Subject one = subjectService.getOne(queryWrapper);
         return one;

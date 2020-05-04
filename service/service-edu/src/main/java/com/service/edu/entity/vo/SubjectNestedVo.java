@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 public class SubjectNestedVo {
-    private Long id;
+    private String id;
     private String title;
     List<SubjectVo> children = new ArrayList<>();
 }

@@ -4,12 +4,15 @@ package com.service.edu.controller;
 import com.common.utils.PageResult;
 import com.common.utils.R;
 import com.service.edu.entity.Teacher;
+import com.service.edu.entity.vo.TeacherVo;
 import com.service.edu.service.ITeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -30,7 +33,8 @@ public class TeacherController {
     @ApiOperation("所有讲师")
     @GetMapping
     public R list() {
-        return R.ok().put("list", teacherService.list(null));
+        List<TeacherVo> list = teacherService.list();
+        return R.ok().put("list", list);
     }
 
     @ApiOperation("分页查询讲师")

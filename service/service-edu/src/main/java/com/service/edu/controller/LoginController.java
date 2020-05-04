@@ -1,12 +1,14 @@
 package com.service.edu.controller;
 
 import com.common.utils.R;
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author
  * @date 2020/5/1
  */
+@Api(description = "登录")
 @RestController
 public class LoginController {
 
