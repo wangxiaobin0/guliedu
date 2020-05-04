@@ -23,4 +23,15 @@ mybatis-plus:
   type-aliases-package: com.service.edu.entity
 logging:
   file:
-    path: E:/logpath/logfile.log
+    path: E:/
+    logpath/logfile.log
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000
+feign:
+  hystrix:
+    enabled: true

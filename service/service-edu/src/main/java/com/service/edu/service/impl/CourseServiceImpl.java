@@ -1,5 +1,6 @@
 package com.service.edu.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,10 +9,12 @@ import com.service.edu.constrant.CourseConstant;
 import com.service.edu.entity.Course;
 import com.service.edu.entity.CourseDescription;
 import com.service.edu.entity.vo.CoursePublishVo;
+import com.service.edu.entity.vo.CourseQueryVo;
 import com.service.edu.entity.vo.CourseVo;
 import com.service.edu.mapper.CourseMapper;
 import com.service.edu.service.ICourseDescriptionService;
 import com.service.edu.service.ICourseService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,8 +44,28 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
     CourseMapper courseMapper;
 
     @Override
-    public PageResult byPage(Long page, Long limit) {
+    public PageResult byPage(Long page, Long limit, CourseQueryVo courseQueryVo) {
         Page<Course> coursePage = new Page<>(page, limit);
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+
+        String title = courseQueryVo.getTitle();
+        Long subjectId = courseQueryVo.getSubjectId();
+        Long subjectParentId = courseQueryVo.getSubjectParentId();
+        Long teacherId = courseQueryVo.getTeacherId();
+        //创建时间顺序
+        queryWrapper.orderByAsc("gmt_create");
+        if (StringUtils.isNotEmpty(courseQueryVo.getTitle())) {
+            queryWrapper.like("title", title);
+        }
+        if (subjectId != null) {
+            queryWrapper.eq("subject_id", subjectId);
+        }
+        if (subjectParentId != null) {
+            queryWrapper.eq("subject_parent_id", subjectParentId);
+        }
+        if (teacherId != null) {
+            queryWrapper.eq("teacher_id", teacherId);
+        }
         IPage<Course> iPage = this.page(coursePage, null);
         return PageResult.build(iPage);
     }

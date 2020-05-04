@@ -5,6 +5,7 @@ import com.common.utils.PageResult;
 import com.common.utils.R;
 import com.service.edu.entity.Course;
 import com.service.edu.entity.vo.CoursePublishVo;
+import com.service.edu.entity.vo.CourseQueryVo;
 import com.service.edu.entity.vo.CourseVo;
 import com.service.edu.service.ICourseService;
 import io.swagger.annotations.Api;
@@ -45,8 +46,9 @@ public class CourseController {
     @ApiOperation("分页查询课程")
     @GetMapping("/{page}/{limit}")
     public R byPage(@ApiParam(value = "页数", name = "page", required = true) @PathVariable("page") Long page,
-                    @ApiParam(value = "每页显示数量", name = "limit", defaultValue = "10")@PathVariable("limit") Long limit) {
-        PageResult pageResult = courseService.byPage(page, limit);
+                    @ApiParam(value = "每页显示数量", name = "limit", defaultValue = "10")@PathVariable("limit") Long limit,
+                    @ApiParam(value = "课程查询对象", name = "courseQueryVo") CourseQueryVo courseQueryVo) {
+        PageResult pageResult = courseService.byPage(page, limit, courseQueryVo);
         return R.ok().put("page", pageResult);
     }
 
@@ -75,7 +77,7 @@ public class CourseController {
 
     @ApiOperation("根据Id删除课程")
     @DeleteMapping("/{id}")
-    public R deleteById(@ApiParam(value = "id", name = "id", required = true) @PathVariable("id") String id) {
+    public R deleteById(@ApiParam(value = "id", name = "id", required = true) @PathVariable("id") Long id) {
         courseService.removeById(id);
         return R.ok();
     }

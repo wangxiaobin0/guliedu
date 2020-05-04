@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.common.utils.PageResult;
 import com.service.edu.entity.Course;
 import com.service.edu.entity.vo.CoursePublishVo;
+import com.service.edu.entity.vo.CourseQueryVo;
 import com.service.edu.entity.vo.CourseVo;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public interface ICourseService extends IService<Course> {
      * @param limit 每页显示数量
      * @return
      */
-    PageResult byPage(Long page, Long limit);
+    PageResult byPage(Long page, Long limit, CourseQueryVo courseQueryVo);
 
     /**
      * 根据id查询CourseVo
