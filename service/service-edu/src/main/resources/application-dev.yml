@@ -23,8 +23,7 @@ mybatis-plus:
   type-aliases-package: com.service.edu.entity
 logging:
   file:
-    path: E:/
-    logpath/logfile.log
+    path: E:/logpath/logfile.log
 hystrix:
   command:
     default:
