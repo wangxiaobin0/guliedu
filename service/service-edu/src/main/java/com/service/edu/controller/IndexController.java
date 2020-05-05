@@ -5,6 +5,7 @@ import com.common.utils.R;
 import com.service.edu.entity.Course;
 import com.service.edu.entity.Teacher;
 import com.service.edu.service.ICourseService;
+import com.service.edu.service.IIndexService;
 import com.service.edu.service.ITeacherService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,21 +26,13 @@ import java.util.List;
 public class IndexController {
 
     @Autowired
-    ITeacherService teacherService;
-    @Autowired
-    ICourseService courseService;
-
+    IIndexService indexService;
     @GetMapping
     public R indexInfo() {
-        QueryWrapper<Course> courseQueryWrapper = new QueryWrapper<>();
-        courseQueryWrapper.orderByAsc("id");
-        courseQueryWrapper.last("limit 8");
-        List<Course> courseList = courseService.list(courseQueryWrapper);
-
-        QueryWrapper<Teacher> teacherQueryWrapper = new QueryWrapper<>();
-        teacherQueryWrapper.orderByAsc("id");
-        courseQueryWrapper.last("limit 4");
-        List<Teacher> teacherList = teacherService.list(teacherQueryWrapper);
+        List<Course> courseList = indexService.courseInfo();
+        List<Teacher> teacherList = indexService.teacherInfo();
         return R.ok().put("courseList", courseList).put("teacherList", teacherList);
     }
+
+
 }
