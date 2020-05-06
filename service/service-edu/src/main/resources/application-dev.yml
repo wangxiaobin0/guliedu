@@ -27,6 +27,7 @@ mybatis-plus:
 logging:
   file:
     path: E:/logpath/logfile.log
+
 hystrix:
   command:
     default:

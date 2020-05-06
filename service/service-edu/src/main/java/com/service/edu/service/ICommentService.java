@@ -1,7 +1,10 @@
 package com.service.edu.service;
 
+import com.common.utils.PageResult;
 import com.service.edu.entity.Comment;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ICommentService extends IService<Comment> {
 
+    PageResult listByPage(Long page, Long limit, Long id);
 }
