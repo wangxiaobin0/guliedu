@@ -35,7 +35,7 @@ public class JwtUtil {
      */
     public static String createJwtToken(Object obj, Long expireTime) {
         JwtBuilder jwtBuilder = Jwts.builder();
-        jwtBuilder.claim("info", obj);
+        jwtBuilder.claim("session", obj);
         //token创建时间
         Long createTime = System.currentTimeMillis();
         jwtBuilder.setIssuedAt(new Date(createTime));
@@ -64,7 +64,7 @@ public class JwtUtil {
         jwtParser.setSigningKey(APP_SECRET);
         Jws<Claims> jws = jwtParser.parseClaimsJws(token);
         Claims c =  jws.getBody();
-        return c.get("info");
+        return c.get("session");
     }
 
 }

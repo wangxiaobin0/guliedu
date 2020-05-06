@@ -32,8 +32,7 @@ import java.time.Duration;
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
     @Bean
-    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory)
-            throws UnknownHostException {
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(redisConnectionFactory);
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();

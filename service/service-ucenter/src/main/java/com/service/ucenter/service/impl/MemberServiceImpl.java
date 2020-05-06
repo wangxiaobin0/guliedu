@@ -2,28 +2,25 @@ package com.service.ucenter.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.common.utils.JwtUtil;
-import com.common.utils.R;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.ucenter.entity.Member;
 import com.service.ucenter.entity.vo.LoginVo;
 import com.service.ucenter.entity.vo.RegisterVo;
+import com.service.ucenter.entity.vo.SessionVo;
 import com.service.ucenter.mapper.MemberMapper;
 import com.service.ucenter.service.IMemberService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang.StringUtils;
-import org.apache.tomcat.util.security.MD5Encoder;
-import org.bouncycastle.jcajce.provider.asymmetric.rsa.DigestSignatureSpi;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 
-import javax.management.relation.RoleUnresolved;
 import javax.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p>
@@ -37,11 +34,11 @@ import java.util.concurrent.ConcurrentHashMap;
 public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> implements IMemberService {
 
     @Autowired
-    StringRedisTemplate stringRedisTemplate;
-
+    RedisTemplate redisTemplate;
+    private final ObjectMapper mapper = new ObjectMapper();
     private static final String SMS_CODE_PREFIX = "SMS:REGISTER:CODE:";
     @Override
-    public String login(LoginVo loginVo) {
+    public String login(LoginVo loginVo) throws JsonProcessingException {
         String mobile = loginVo.getMobile();
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("mobile", mobile);
@@ -55,7 +52,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         if (member.getIsDisabled()) {
             throw new RuntimeException("该用户已被引用");
         }
-        String token = JwtUtil.createJwtToken(loginVo);
+        SessionVo sessionVo = new SessionVo();
+        BeanUtils.copyProperties(member, sessionVo);
+        String session = mapper.writeValueAsString(sessionVo);
+        String token = JwtUtil.createJwtToken(session);
         return token;
     }
 
@@ -68,7 +68,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
 
         String key = SMS_CODE_PREFIX + registerVo.getMobile();
 
-        String session_code = (String) stringRedisTemplate.opsForValue().get(key);
+        String session_code = (String) redisTemplate.opsForValue().get(key);
         if (StringUtils.isEmpty(session_code)) {
             throw new RuntimeException("验证码已过期，请重新获取");
         }
@@ -77,7 +77,7 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
         }
 
         //验证成功，删除验证码
-        stringRedisTemplate.delete(key);
+        redisTemplate.delete(key);
 
         QueryWrapper queryWrapper = new QueryWrapper();
         queryWrapper.eq("mobile", registerVo.getMobile());
@@ -94,18 +94,16 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     }
 
     @Override
-    public LoginVo auth(HttpServletRequest request) {
+    public SessionVo auth(HttpServletRequest request) throws JsonProcessingException{
         String auth = request.getHeader("token");
         if (StringUtils.isEmpty(auth)) {
             throw new RuntimeException("登录已过期，请重新登录");
         }
-        LinkedHashMap<String, String> tokenInfo = (LinkedHashMap)JwtUtil.getTokenInfo(auth);
-        if (tokenInfo == null) {
+        String session = (String) JwtUtil.getTokenInfo(auth);
+        if (session == null) {
             throw new RuntimeException("非法token");
         }
-        LoginVo loginVo = new LoginVo();
-        loginVo.setMobile(tokenInfo.get("mobile"));
-        loginVo.setPassword(tokenInfo.get("password"));
-        return loginVo;
+        SessionVo sessionVo = mapper.readValue(session, SessionVo.class);
+        return sessionVo;
     }
 }

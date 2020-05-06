@@ -6,13 +6,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @author
- * @date 2020/5/2
+ * @date 2020/5/1
  */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedHeaders("*")
-                .allowedMethods("*").allowCredentials(true).allowedOrigins("*");
+        registry.addMapping("/**").allowCredentials(true).allowedOrigins("*").allowedMethods("*").allowedHeaders("*");
     }
 }

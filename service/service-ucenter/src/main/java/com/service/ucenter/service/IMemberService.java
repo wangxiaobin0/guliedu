@@ -1,9 +1,11 @@
 package com.service.ucenter.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.ucenter.entity.Member;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.service.ucenter.entity.vo.LoginVo;
 import com.service.ucenter.entity.vo.RegisterVo;
+import com.service.ucenter.entity.vo.SessionVo;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,7 +23,7 @@ public interface IMemberService extends IService<Member> {
      * 登录
      * @param loginVo
      */
-    String login(LoginVo loginVo);
+    String login(LoginVo loginVo) throws JsonProcessingException;
 
     /**
      * 注册
@@ -34,5 +36,5 @@ public interface IMemberService extends IService<Member> {
      * @param request
      * @return
      */
-    LoginVo auth(HttpServletRequest request);
+    SessionVo auth(HttpServletRequest request) throws JsonProcessingException;
 }
