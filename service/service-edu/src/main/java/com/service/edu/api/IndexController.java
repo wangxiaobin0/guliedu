@@ -1,4 +1,4 @@
-package com.service.edu.controller;
+package com.service.edu.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.common.utils.R;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Api("首页信息")
 @RestController
-@RequestMapping("/eduservice/index")
+@RequestMapping("/api/edu/index")
 public class IndexController {
 
     @Autowired

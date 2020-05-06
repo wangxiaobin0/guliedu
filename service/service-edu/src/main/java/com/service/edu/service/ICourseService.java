@@ -23,6 +23,7 @@ public interface ICourseService extends IService<Course> {
      * 分页查询课程
      * @param page  页数
      * @param limit 每页显示数量
+     * @param courseQueryVo
      * @return
      */
     PageResult byPage(Long page, Long limit, CourseQueryVo courseQueryVo);
@@ -59,4 +60,11 @@ public interface ICourseService extends IService<Course> {
      * @param id
      */
     void publish(Long id);
+
+    /**
+     * 根据讲师id，查询所属课程
+     * @param id
+     * @return
+     */
+    List<Course> courseListByTeacher(Long id);
 }

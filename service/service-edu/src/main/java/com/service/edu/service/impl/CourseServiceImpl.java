@@ -52,6 +52,9 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         Long subjectId = courseQueryVo.getSubjectId();
         Long subjectParentId = courseQueryVo.getSubjectParentId();
         Long teacherId = courseQueryVo.getTeacherId();
+        String gmtCreate = courseQueryVo.getGmtCreateSort();
+        String buyCount = courseQueryVo.getBuyCountSort();
+        String price = courseQueryVo.getPriceSort();
         //创建时间顺序
         queryWrapper.orderByAsc("gmt_create");
         if (StringUtils.isNotEmpty(courseQueryVo.getTitle())) {
@@ -65,6 +68,17 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         }
         if (teacherId != null) {
             queryWrapper.eq("teacher_id", teacherId);
+        }
+        if (gmtCreate != null) {
+            queryWrapper.orderByDesc("gmt_create");
+        }
+
+        if (buyCount != null) {
+            queryWrapper.orderByDesc("buy_count");
+        }
+
+        if (price != null) {
+            queryWrapper.orderByDesc("price");
         }
         IPage<Course> iPage = this.page(coursePage, null);
         return PageResult.build(iPage);
@@ -131,5 +145,14 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         course.setId(id);
         course.setStatus(CourseConstant.STATUS_DRAFT);
         this.updateById(course);
+    }
+
+    @Override
+    public List<Course> courseListByTeacher(Long id) {
+        QueryWrapper<Course> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("teacher_id", id);
+        queryWrapper.orderByAsc("gmt_modified");
+        List<Course> courseList = this.list(queryWrapper);
+        return courseList;
     }
 }
