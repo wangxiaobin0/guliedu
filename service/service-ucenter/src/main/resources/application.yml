@@ -1,0 +1,7 @@
+server:
+  port: 8005
+spring:
+  application:
+    name: SERVICE-UCENTER
+  profiles:
+    active: dev

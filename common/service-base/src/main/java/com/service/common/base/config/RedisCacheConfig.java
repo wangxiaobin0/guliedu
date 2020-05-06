@@ -31,6 +31,19 @@ import java.time.Duration;
 @EnableCaching
 public class RedisCacheConfig extends CachingConfigurerSupport {
 
+    @Bean
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory)
+            throws UnknownHostException {
+        RedisTemplate<Object, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
+        StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
+        RedisSerializer redisSerializer = redisSerializer();
+        template.setKeySerializer(stringRedisSerializer);
+        template.setValueSerializer(redisSerializer);
+        template.setHashKeySerializer(stringRedisSerializer);
+        return template;
+    }
+
     /**
      * 自定义CacheManager，设置Redis默认序列化工具和默认过期时间
      * @param connectionFactory
