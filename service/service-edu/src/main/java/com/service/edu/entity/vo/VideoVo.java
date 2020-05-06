@@ -27,7 +27,7 @@ public class VideoVo {
     private String videoSourceId;
 
     @ApiModelProperty(value = "是否可以试听：0收费 1免费")
-    private Boolean free;
+    private Boolean isFree;
 
     @ApiModelProperty(value = "排序字段")
     private Integer sort;

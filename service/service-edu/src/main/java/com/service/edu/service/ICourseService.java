@@ -6,6 +6,7 @@ import com.service.edu.entity.Course;
 import com.service.edu.entity.vo.CoursePublishVo;
 import com.service.edu.entity.vo.CourseQueryVo;
 import com.service.edu.entity.vo.CourseVo;
+import com.service.edu.entity.vo.CourseWebVo;
 
 import java.util.List;
 
@@ -67,4 +68,17 @@ public interface ICourseService extends IService<Course> {
      * @return
      */
     List<Course> courseListByTeacher(Long id);
+
+    /**
+     * 根据id查询页面显示数据
+     * @param id
+     * @return
+     */
+    CourseWebVo detailById(Long id);
+
+    /**
+     * 更新浏览次数
+     * @param id
+     */
+    void updateViewNum(Long id);
 }

@@ -11,6 +11,7 @@ import com.service.edu.entity.CourseDescription;
 import com.service.edu.entity.vo.CoursePublishVo;
 import com.service.edu.entity.vo.CourseQueryVo;
 import com.service.edu.entity.vo.CourseVo;
+import com.service.edu.entity.vo.CourseWebVo;
 import com.service.edu.mapper.CourseMapper;
 import com.service.edu.service.ICourseDescriptionService;
 import com.service.edu.service.ICourseService;
@@ -154,5 +155,18 @@ public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> impleme
         queryWrapper.orderByAsc("gmt_modified");
         List<Course> courseList = this.list(queryWrapper);
         return courseList;
+    }
+
+    @Override
+    public CourseWebVo detailById(Long id) {
+        CourseWebVo courseWebVo = courseMapper.detailById(id);
+        return courseWebVo;
+    }
+
+    @Override
+    public void updateViewNum(Long id) {
+        Course course = this.getById(id);
+        course.setViewCount(course.getViewCount() + 1);
+        this.updateById(course);
     }
 }
