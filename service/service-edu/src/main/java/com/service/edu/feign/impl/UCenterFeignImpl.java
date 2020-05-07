@@ -1,6 +1,7 @@
 package com.service.edu.feign.impl;
 
 import com.common.entity.vo.SessionVo;
+import com.common.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.edu.feign.UCenterFeign;
 import org.springframework.stereotype.Component;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @Component
 public class UCenterFeignImpl implements UCenterFeign {
     @Override
-    public SessionVo auth(HttpServletRequest request) throws JsonProcessingException {
+    public R auth(HttpServletRequest request) throws JsonProcessingException {
         return null;
     }
 }

@@ -1,6 +1,7 @@
 package com.service.edu.feign;
 
 import com.common.entity.vo.SessionVo;
+import com.common.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.edu.feign.impl.UCenterFeignImpl;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -17,5 +18,5 @@ import javax.servlet.http.HttpServletRequest;
 @FeignClient(value = "SERVICE-UCENTER", fallback = UCenterFeignImpl.class)
 public interface UCenterFeign {
     @GetMapping("/api/member/auth")
-    SessionVo auth(@RequestParam("request") HttpServletRequest request)  throws JsonProcessingException;
+    R auth(@RequestParam("request") HttpServletRequest request)  throws JsonProcessingException;
 }

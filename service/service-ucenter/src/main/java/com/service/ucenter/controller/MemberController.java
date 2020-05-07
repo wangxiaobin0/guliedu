@@ -1,6 +1,7 @@
 package com.service.ucenter.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.common.utils.R;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.service.ucenter.entity.vo.LoginVo;
@@ -51,6 +52,13 @@ public class MemberController {
     public R auth(HttpServletRequest request)  throws JsonProcessingException{
         SessionVo sessionVo = memberService.auth(request);
         return R.ok().put("item", sessionVo);
+    }
+    @GetMapping("/register/{day}")
+    public R count(@PathVariable("day") String day) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.like("gmt_create", day);
+        int count = memberService.count(queryWrapper);
+        return R.ok().put("count", count);
     }
 }
 

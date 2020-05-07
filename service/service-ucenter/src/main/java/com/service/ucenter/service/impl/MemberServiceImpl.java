@@ -97,7 +97,10 @@ public class MemberServiceImpl extends ServiceImpl<MemberMapper, Member> impleme
     public SessionVo auth(HttpServletRequest request) throws JsonProcessingException{
         String auth = request.getHeader("token");
         if (StringUtils.isEmpty(auth)) {
-            throw new RuntimeException("登录已过期，请重新登录");
+            auth = request.getParameter("token");
+            if (StringUtils.isEmpty(auth)) {
+                throw new RuntimeException("登录已过期，请重新登录");
+            }
         }
         String session = (String) JwtUtil.getTokenInfo(auth);
         if (session == null) {

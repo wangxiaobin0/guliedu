@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class CommentController {
     @Autowired
     ICommentService commentService;
 
-    @Autowired
+    @Resource
     UCenterFeign uCenterFeign;
 
     @ApiOperation("课程评论列表")
@@ -48,10 +49,14 @@ public class CommentController {
     @ApiOperation("新增评论")
     @PostMapping("/auth")
     public R save(@RequestBody Comment comment, HttpServletRequest request) throws JsonProcessingException {
-        SessionVo sessionVo = uCenterFeign.auth(request);
-        if (sessionVo == null) {
+        String token = request.getHeader("token");
+        request.setAttribute("token", token);
+        R r = uCenterFeign.auth(request);
+
+        if (!r.getSuccess()) {
             return R.error().code(28004);
         }
+        SessionVo sessionVo = (SessionVo)r.getData().get("item");
         comment.setMemberId(sessionVo.getId());
         commentService.save(comment);
         return R.ok();
