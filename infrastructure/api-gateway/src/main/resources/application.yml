@@ -1,0 +1,8 @@
+server:
+  port: 8007
+
+spring:
+  application:
+    name: API-GATEWAY
+  profiles:
+    active: dev

@@ -1,0 +1,57 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        # 讲师/课程
+        - id: SERVICE-EDU
+          uri: lb://SERVICE-EDU
+          predicates:
+            - Path=/*/edu/**
+        # 登录
+        - id: SERVICE-LOGIN
+          uri: lb://SERVICE-EDU
+          predicates:
+            - Path=/user/**
+        # 对象存储
+        - id: SERVICE-OSS
+          uri: lb://SERVICE-OSS
+          predicates:
+            - Path=/*/oss/**
+        # 短信验证
+        - id: SERVICE-SMS
+          uri: lb://SERVICE-SMS
+          predicates:
+            - Path=/*/sms/**
+        # 统计
+        - id: SERVICE-STATISTICS
+          uri: lb://SERVICE-STATISTICS
+          predicates:
+            - Path=/*/statistics/**
+        # 会员管理
+        - id: SERVICE-MEMBER
+          uri: lb://SERVICE-MEMBER
+          predicates:
+            - Path=/*/member/**
+      globalcors:
+        cors-configurations:
+          #请求URI
+          '[/**]':
+            allowCredentials: true
+            #允许的请求头origin
+            allowedHeaders:
+              - "*"
+            allowedOrigins:
+              - "http://127.0.0.1:3000"
+              - "http://localhost:9528"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTIONS
+
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+
